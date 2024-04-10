@@ -1,0 +1,18 @@
+# Ignore sensitive files
+*.pem
+*.key
+*.pub
+
+# Terraform .terraform directory
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Ignore CLI configuration files
+terraform.rc
