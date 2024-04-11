@@ -21,10 +21,16 @@ aws_auth_users = [
         groups   = ["system:masters"]
       },
       {
-        userarn  = "arn:aws:iam::519852036875:user/pushkar"
-        username = "pushkar"
+        userarn  = "arn:aws:iam::519852036875:user/abhilash.rl@cloudjournee.com"
+        username = "abhilash.rl@cloudjournee.com"
+        groups   = ["system:masters"]
+      },
+      {
+        userarn  = "arn:aws:iam::519852036875:user/rajaram.s@cloudjournee.com"
+        username = "rajaram.s@cloudjournee.com"
         groups   = ["system:masters"]
       }
+
 ]
 vpc_id                  = "vpc-54e5273d"
 sg_name                 = "fluence-sg"
