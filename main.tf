@@ -6,6 +6,7 @@ resource "aws_instance" "jump-server" {
   vpc_security_group_ids       = [aws_security_group.jump-server-sg.id]
   associate_public_ip_address  = true
   availability_zone            = var.availability_zone
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name  # Attach IAM role to the EC2 instance
 
   tags = {
     Name = "jump-server"
@@ -68,6 +69,7 @@ resource "aws_security_group" "jump-server-sg" {
     description = "Allow SSH traffic"
   }
 
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -88,4 +90,28 @@ resource "aws_ebs_volume" "jump-server" {
   tags = {
     Name = "jump-server"
   }
+}
+
+resource "aws_iam_role" "ec2_role" {
+  name               = "EC2_Admin_Role"
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17",
+    Statement = [{
+      Effect    = "Allow",
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      },
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "admin_policy_attachment" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "EC2_Admin_Profile"
+  role = aws_iam_role.ec2_role.name
 }
